@@ -8,5 +8,11 @@ namespace QuotesApiV2.Services.Interfaces
         Task<IActionResult> CreateQuote(CreateQuoteDto request);
 
         Task<IActionResult> CreateTag(CreateTagDto request);
+
+        Task<IActionResult> GetQuote(int id);
+
+        Task<IActionResult> GetAllTags();
+
+        Task<IActionResult> GetAllQuotes();
     }
 }

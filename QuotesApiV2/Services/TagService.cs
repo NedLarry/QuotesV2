@@ -1,4 +1,6 @@
-﻿using QuotesApiV2.Domain;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using QuotesApiV2.Domain;
 using QuotesApiV2.Domain.Dtos;
 using QuotesApiV2.Domain.Models;
 using QuotesApiV2.Services.Interfaces;
@@ -32,6 +34,22 @@ namespace QuotesApiV2.Services
             }catch (Exception ex)
             {
                 return -1;
+            }
+        }
+
+        public async Task<List<Tag>> GetAllTags()
+        {
+            try
+            {
+
+                var records = await _context.Tags.ToListAsync();
+
+                return records;
+
+            }
+            catch (Exception ex)
+            {
+                return new List<Tag>();
             }
         }
     }
