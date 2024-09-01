@@ -6,5 +6,8 @@ namespace QuotesApiV2.Services.Interfaces
     public interface ITagService
     {
         Task<int> AddTag(CreateTagDto request);
+
+        Task<List<Tag>> GetAllTags ();
+
     }
 }

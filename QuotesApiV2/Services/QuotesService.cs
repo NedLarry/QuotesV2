@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using QuotesApiV2.Domain;
 using QuotesApiV2.Domain.Dtos;
 using QuotesApiV2.Domain.Models;
@@ -24,7 +26,7 @@ namespace QuotesApiV2.Services
 
                 foreach (var tag in request.Tags)
                 {
-                    quoteTags = string.Join(',', tag);
+                    quoteTags += string.Join(" ", tag);
                 }
 
                 var newQuotes = new Quote
@@ -44,6 +46,50 @@ namespace QuotesApiV2.Services
             catch (Exception ex)
             {
                 return -1;
+            }
+        }
+
+        public async Task<Quote> GetQuote(int Id)
+        {
+            try
+            {
+
+                var quote = await _context.Quotes.Where(q => q.Id.Equals(Id)).FirstOrDefaultAsync();
+
+                if (quote is null)
+                {
+                    return null!;
+                }
+
+
+                return quote;
+
+            }
+            catch (Exception ex)
+            {
+                return null!; ;
+            }
+        }
+
+        public async Task<List<Quote>> GetQuotes()
+        {
+            try
+            {
+
+                var quote = await _context.Quotes.ToListAsync();
+
+                if (quote is null)
+                {
+                    return null!;
+                }
+
+
+                return quote;
+
+            }
+            catch (Exception ex)
+            {
+                return null!; ;
             }
         }
     }

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using QuotesApiV2.Domain.Dtos;
+using QuotesApiV2.Domain.Models;
 using QuotesApiV2.Services.Interfaces;
 using System.Security.Cryptography;
 
@@ -95,6 +97,91 @@ namespace QuotesApiV2.Services
                     responseCode = "99",
                     responseMessage = ex.Message,
                     data = request
+                });
+            }
+        }
+
+        public async Task<IActionResult> GetAllQuotes()
+        {
+            try
+            {
+                var tags = await _quotesService.GetQuotes();
+
+                return Ok(new ApiResponse
+                {
+                    responseCode = "00",
+                    responseMessage = "Success",
+                    data = tags
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
+                {
+                    responseCode = "99",
+                    responseMessage = ex.Message,
+                    data = new List<Tag>()
+                });
+            }
+        }
+
+        public async Task<IActionResult> GetAllTags()
+        {
+            try
+            {
+                var tags = await _tagService.GetAllTags();
+
+                return Ok(new ApiResponse
+                {
+                    responseCode = "00",
+                    responseMessage = "Success",
+                    data = tags
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
+                {
+                    responseCode = "99",
+                    responseMessage = ex.Message,
+                    data = new List<Tag>()
+                });
+            }
+        }
+
+        public async Task<IActionResult> GetQuote(int id)
+        {
+            try
+            {
+                var quote = await _quotesService.GetQuote(id);
+
+                if (quote is null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        responseCode = "01",
+                        responseMessage = "Object not found",
+                        data = id
+                    });
+                }
+
+                return Ok(new ApiResponse
+                {
+                    responseCode = "00",
+                    responseMessage = "Success",
+                    data = quote
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
+                {
+                    responseCode = "99",
+                    responseMessage = ex.Message,
+                    data = id
                 });
             }
         }
