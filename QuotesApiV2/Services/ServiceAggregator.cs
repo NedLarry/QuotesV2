@@ -185,5 +185,44 @@ namespace QuotesApiV2.Services
                 });
             }
         }
+
+        public async Task<IActionResult> GetRandomQuote()
+        {
+            try
+            {
+                var quote = await _quotesService.GetQuotes();
+
+                if (quote is null || !quote.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        responseCode = "01",
+                        responseMessage = "No data",
+                    });
+                }
+
+                //var quoteToPickFrom = quote.Take(5);
+
+                var randInt = Random.Shared.Next(0, quote.Count());
+
+                var randomQuote = quote.ToList().ElementAt(randInt);
+
+                return Ok(new ApiResponse
+                {
+                    responseCode = "00",
+                    responseMessage = "Success",
+                    data = randomQuote!
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse
+                {
+                    responseCode = "99",
+                    responseMessage = ex.Message,
+                });
+            }
+        }
     }
 }

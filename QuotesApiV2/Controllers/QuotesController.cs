@@ -29,5 +29,11 @@ namespace QuotesApiV2.Controllers
         {
             return _serviceAggregator.GetQuote(Id);
         }
+
+        [HttpGet("GetRandom")]
+        public Task<IActionResult> GetRandomQuote()
+        {
+            return _serviceAggregator.GetRandomQuote();
+        }
     }
 }

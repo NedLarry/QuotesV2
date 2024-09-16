@@ -14,5 +14,7 @@ namespace QuotesApiV2.Services.Interfaces
         Task<IActionResult> GetAllTags();
 
         Task<IActionResult> GetAllQuotes();
+
+        Task<IActionResult> GetRandomQuote();
     }
 }

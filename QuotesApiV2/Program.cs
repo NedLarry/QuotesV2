@@ -33,6 +33,7 @@ app.UseHttpsRedirection();
 
 //app.UseMiddleware<ApiKeyMiddleware>();
 
+app.UseSeeding();
 
 app.UseAuthorization();
 

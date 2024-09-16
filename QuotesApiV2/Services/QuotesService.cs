@@ -26,7 +26,7 @@ namespace QuotesApiV2.Services
 
                 foreach (var tag in request.Tags)
                 {
-                    quoteTags += string.Join(" ", tag);
+                    quoteTags += string.Join(' ', tag);
                 }
 
                 var newQuotes = new Quote
